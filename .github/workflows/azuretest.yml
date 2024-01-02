@@ -9,6 +9,7 @@ jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
     steps:
+    environment: TEST
     - name: 'Az CLI login'
       uses: azure/login@v1
       with:
