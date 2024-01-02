@@ -8,8 +8,8 @@ permissions:
 jobs: 
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
     environment: TEST
+    steps:
     - name: 'Az CLI login'
       uses: azure/login@v1
       with:
