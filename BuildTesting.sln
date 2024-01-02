@@ -1,0 +1,21 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppNoDocker", "WebAppNoDocker\WebAppNoDocker.csproj", "{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Folder", "Solution Folder", "{978ACC3F-2392-4D07-B0E0-20579D216EBE}"
+	ProjectSection(SolutionItems) = preProject
+		Dockerfile = Dockerfile
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal
