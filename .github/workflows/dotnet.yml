@@ -24,7 +24,7 @@ jobs:
     - name: Install dependencies (.NET)
       run: dotnet restore
     - name: Build (.NET)
-      run: dotnet build --no-restore
+      run: dotnet build --configuration Release --no-restore
     - name: Test (.NET)
       run: dotnet test --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
     - name: Upload dotnet test results
