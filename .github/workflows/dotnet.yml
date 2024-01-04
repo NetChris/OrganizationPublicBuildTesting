@@ -26,7 +26,7 @@ jobs:
     - name: Build (.NET)
       run: dotnet build --configuration Release --no-restore
     - name: Test (.NET)
-      run: dotnet test --no-build --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
+      run: dotnet test --logger trx --results-directory "TestResults-${{ matrix.dotnet-version }}"
     - name: Upload dotnet test results
       uses: actions/upload-artifact@v3
       with:
