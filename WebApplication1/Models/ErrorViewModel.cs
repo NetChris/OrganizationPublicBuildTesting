@@ -1,4 +1,4 @@
-namespace WebAppNoDocker.Models;
+namespace WebApplication1.Models;
 
 public class ErrorViewModel
 {

@@ -1,4 +1,4 @@
-namespace WebAppNoDocker;
+namespace WebApplication1;
 
 public class Program
 {

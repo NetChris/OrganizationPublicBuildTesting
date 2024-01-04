@@ -1,14 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebAppNoDocker", "WebAppNoDocker\WebAppNoDocker.csproj", "{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Folder", "Solution Folder", "{978ACC3F-2392-4D07-B0E0-20579D216EBE}"
 	ProjectSection(SolutionItems) = preProject
-		Dockerfile = Dockerfile
 		.github\workflows\dotnet.yml = .github\workflows\dotnet.yml
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{57946CB8-F528-464D-8819-74577FB73B97}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApplication1", "WebApplication1\WebApplication1.csproj", "{5E0D1AE9-A5D4-4A60-87A4-DEDAF99949CF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,13 +15,13 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B0DE9D4F-F927-4FBE-808B-65AC00A864BC}.Release|Any CPU.Build.0 = Release|Any CPU
 		{57946CB8-F528-464D-8819-74577FB73B97}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{57946CB8-F528-464D-8819-74577FB73B97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{57946CB8-F528-464D-8819-74577FB73B97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{57946CB8-F528-464D-8819-74577FB73B97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E0D1AE9-A5D4-4A60-87A4-DEDAF99949CF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E0D1AE9-A5D4-4A60-87A4-DEDAF99949CF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E0D1AE9-A5D4-4A60-87A4-DEDAF99949CF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E0D1AE9-A5D4-4A60-87A4-DEDAF99949CF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal
