@@ -22,3 +22,6 @@ jobs:
         dotnet-version: 8.0.x
     - name: Version
       run: dotnet --version
+    - name: Build
+      run: dotnet build
+  
