@@ -12,6 +12,8 @@ jobs:
   epic:
     name: One long epic job
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
     steps:
     -
       name: 'Az CLI login'
