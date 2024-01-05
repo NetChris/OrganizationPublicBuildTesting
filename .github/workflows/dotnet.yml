@@ -108,6 +108,9 @@ jobs:
   deploy_1_to_azure:
     name: Deploy Container 1 to Azure Container Apps
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
     steps:
       - name: Log in to Azure
         uses: azure/login@v1
