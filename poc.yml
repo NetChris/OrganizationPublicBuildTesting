@@ -6,7 +6,7 @@ name: .NET Build, Publish, Deploy
 on:
   push:
     branches:
-      - 'main'
+      - 'building-and-testing-dotnet'
 
 jobs:
   epic:
