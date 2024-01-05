@@ -60,11 +60,25 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
       -
-        name: Extract metadata (tags, labels) for Docker
-        id: meta
+        name: Extract metadata (tags, labels) for Docker image 1
+        id: meta1
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
+          images: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}1"
+          tags: |
+            type=schedule
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=semver,pattern={{major}}
+            type=ref,event=branch
+            type=ref,event=pr
+            type=sha
+      -
+        name: Extract metadata (tags, labels) for Docker image 2
+        id: meta2
+        uses: docker/metadata-action@v5
+        with:
+          images: "${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}2"
           tags: |
             type=schedule
             type=semver,pattern={{version}}
@@ -80,8 +94,8 @@ jobs:
           context: .
           file: ./WebApplication1/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta1.outputs.tags }}
+          labels: ${{ steps.meta1.outputs.labels }}
       -
         name: Build and push WebApplication2
         uses: docker/build-push-action@v5
@@ -89,5 +103,5 @@ jobs:
           context: .
           file: ./WebApplication2/Dockerfile
           push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
+          tags: ${{ steps.meta2.outputs.tags }}
+          labels: ${{ steps.meta2.outputs.labels }}
