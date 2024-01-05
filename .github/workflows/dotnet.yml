@@ -108,6 +108,8 @@ jobs:
   deploy_1_to_azure:
     name: Deploy Container 1 to Azure Container Apps
     runs-on: ubuntu-latest
+    # TODO - We'll obviously need to understand environments and coordinate permissions
+    environment: TEST
     permissions:
       id-token: write
       contents: read
