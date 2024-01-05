@@ -20,5 +20,4 @@ jobs:
       run: |
           az account show
           az group list
-          az containerapp list
-          # pwd
+          pwd
