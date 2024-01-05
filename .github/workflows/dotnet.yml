@@ -82,3 +82,12 @@ jobs:
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
+      -
+        name: Build and push WebApplication2
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: ./WebApplication2/Dockerfile
+          push: true
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
