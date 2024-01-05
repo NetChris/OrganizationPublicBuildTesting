@@ -63,16 +63,11 @@ jobs:
         with:
           images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
       -
-        name: Build and push
-        uses: docker/build-push-action@v5
-        with:
-          push: true
-          tags: user/app:latest
-      -
-        name: Build and push
+        name: Build and push WebApplication1
         uses: docker/build-push-action@v5
         with:
           context: .
+          file: ./WebApplication1/Dockerfile
           push: true
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
