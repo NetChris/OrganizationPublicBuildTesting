@@ -31,7 +31,8 @@ jobs:
         with:
           context: .
           file: WebApplication1/Dockerfile
-          platforms: linux/amd64,linux/arm64
+#          platforms: linux/amd64,linux/arm64
+          platforms: linux/amd64
           push: true
           tags: |
             ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
