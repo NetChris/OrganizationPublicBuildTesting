@@ -33,7 +33,7 @@ jobs:
           # I want to build, publish, and dockerbuild only the app, not the whole solution.
           # So I ASSUME setting the context to the directory of the project will limit the
           # build scope to the csproj inside.
-          context: WebApplication1/.
+          context: "{{defaultContext}}:WebApplication1"
           file: Dockerfile
 #          platforms: linux/amd64,linux/arm64
           platforms: linux/arm64
