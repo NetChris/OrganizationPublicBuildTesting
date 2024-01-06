@@ -34,7 +34,7 @@ jobs:
           # So I ASSUME setting the context to the directory of the project will limit the
           # build scope to the csproj inside.
           context: "{{defaultContext}}:WebApplication1"
-          file: Dockerfile
+#          file: Dockerfile
 #          platforms: linux/amd64,linux/arm64
 #          platforms: linux/arm64
           platforms: linux/amd64
