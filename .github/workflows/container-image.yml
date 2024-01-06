@@ -34,4 +34,4 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/WebApplication1:${{ github.sha }}
+            ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
