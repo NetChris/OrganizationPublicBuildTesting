@@ -3,7 +3,7 @@ name: container-image
 on:
   push:
     branches:
-      - 'main'
+      - 'building-and-testing-dotnet'
 
 jobs:
   build-and-push:
