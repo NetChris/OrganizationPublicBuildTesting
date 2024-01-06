@@ -1,9 +1,9 @@
 # TODO - Set these in env
-$Subscription20210521 = XXX
-$SubscriptionMSDN = XXX
-$SubscriptionMain = XXX
-$AcrName = XXX
-$ManagedIdentityName = XXX
+$Subscription20210521 = $env:Subscription20210521
+$SubscriptionMSDN = $env:SubscriptionMSDN
+$SubscriptionMain = $env:SubscriptionMain
+$AcrName = "netchristest"
+$ManagedIdentityName = "GitHub-NetChris-PublicBuildTesting"
 
 # Set the GitHub repository name in the format: pauldotyu/osinfo
 $GitHubRepo = "NetChris/PublicBuildTesting"
