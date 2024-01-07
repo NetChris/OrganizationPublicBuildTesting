@@ -40,5 +40,5 @@ jobs:
           tags: |
             ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
           labels: |
-            xxx=yyy1
-            xxx=yyy2
+            xxx1=yyy1
+            xxx2=yyy2
