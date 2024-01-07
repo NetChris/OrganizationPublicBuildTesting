@@ -38,6 +38,9 @@ $ManagedIdentityTenantId = $(az identity show   --subscription $SubscriptionSand
 # Grant the managed identity access to ACR resource
 az role assignment create --role "AcrPush" --assignee-object-id $ManagedIdentityObjectId --assignee-principal-type ServicePrincipal --scope $AcrResourceId
 
+# TODO - Grant access to deploy to container app
+# TODO - One-time - grant access for container app to pull from ACR
+
 # TODO - I *think* there will be a FC required for each context in the repo which will need to talk to GH:
 # - main branch
 # - Each well-known branch?
