@@ -26,6 +26,8 @@ jobs:
       id-token: write
       # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
       contents: read
+    env:
+      DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.imagetag }}:${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -51,7 +53,7 @@ jobs:
           platforms: linux/amd64
           push: true
           tags: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.context-subfolder }}:${{ github.sha }}
+            ${{ env.DOCKER_IMAGE }}
           labels: |
             xxx1=yyy1
             xxx2=yyy2
@@ -59,6 +61,6 @@ jobs:
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.context-subfolder }}:${{ github.sha }}
+          imageToDeploy: ${{ env.DOCKER_IMAGE }}
           containerAppName: ${{ matrix.container-app-name }}
           resourceGroup: ${{ matrix.resource-group }}
