@@ -11,11 +11,11 @@ jobs:
     strategy:
       matrix:
         include:
-          # - 
-          #   context-subfolder: WebApplication1
-          #   imagetag: webapplication1
-          #   container-app-name: test20240106
-          #   resource-group: test20240106
+          - 
+            context-subfolder: WebApplication1
+            imagetag: webapplication1
+            container-app-name: test20240106
+            resource-group: test20240106
           - 
             context-subfolder: WebApplication2
             imagetag: webapplication2
