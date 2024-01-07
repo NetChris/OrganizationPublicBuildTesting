@@ -3,7 +3,7 @@ $SubscriptionSandbox = $env:SubscriptionSandbox
 $SubscriptionMain = $env:SubscriptionMain
 
 # Set the resource group name
-$ResourceGroup = "PublicBuildTesting"
+$ResourceGroup = "Sandbox"
 
 # Set the managed identity name
 $ManagedIdentityName = "GitHub-NetChris-PublicBuildTesting"

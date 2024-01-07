@@ -2,22 +2,21 @@
 $SubscriptionTesting = $env:SubscriptionTesting
 $SubscriptionSandbox = $env:SubscriptionSandbox
 $SubscriptionMain = $env:SubscriptionMain
-$AcrName = "netchris"
+$AcrName = "netchrissandbox"
 $ManagedIdentityName = "GitHub-NetChris-PublicBuildTesting"
 
 # Set the GitHub repository name in the format: pauldotyu/osinfo
 $GitHubRepo = "NetChris/PublicBuildTesting"
 
-$AcrResourceId = $(az acr show --subscription $SubscriptionMain --name $AcrName --query "id" -o tsv)
+$AcrResourceId = $(az acr show --subscription $SubscriptionSandbox --name $AcrName --query "id" -o tsv)
 "ACR Resource Id: $AcrResourceId"
-$AcrLoginServer = $(az acr show --subscription $SubscriptionMain --name $AcrName --query "loginServer" -o tsv)
-"ACR LoginsServer: $AcrLoginServer"
+$AcrLoginServer = $(az acr show --subscription $SubscriptionSandbox --name $AcrName --query "loginServer" -o tsv)
+"ACR LoginServer: $AcrLoginServer"
 $CurrentSubscriptionId = $(az account show --query id -o tsv)
 "Current Subscription Id: $CurrentSubscriptionId"
 
 # Set the resource group name
-# For the purposes of this project, it's in SubscriptionSandbox
-$ResourceGroup = "PublicBuildTesting"
+$ResourceGroup = "Sandbox"
 
 # Establish a trust relationship between Azure and GitHub Actions
 # Set the federated credential name
@@ -27,7 +26,7 @@ $FederatedCredentialName = "$ManagedIdentityName-FC"
 $GitHubBranch = "building-and-testing-dotnet"
 
 # Create the managed identity and return the service principal object id
-$ManagedIdentityObjectId = $(az identity create --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query principalId -o tsv)
+$ManagedIdentityObjectId = $(az identity create --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --tags "netchris-app-aggregate=xx xx" "netchris-app-aggregate-other=yy yy" --query principalId -o tsv)
 $ManagedIdentityClientId = $(az identity show   --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query clientId    -o tsv)
 $ManagedIdentityTenantId = $(az identity show   --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query tenantId    -o tsv)
 
@@ -69,6 +68,6 @@ gh secret set AZURE_TENANT_ID -b $ManagedIdentityTenantId
 # Get the subscription id and set the secret
 # Note, this must be a subscription where the managed identity has an role assignment.  It's unclear if it has to be the subscription
 # for the resources we're actually accessing.
-gh secret set AZURE_SUBSCRIPTION_ID -b $SubscriptionMain
+gh secret set AZURE_SUBSCRIPTION_ID -b $SubscriptionSandbox
 
 gh secret set ACR_LOGIN_SERVER -b $AcrLoginServer
