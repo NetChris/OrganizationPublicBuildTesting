@@ -39,3 +39,6 @@ jobs:
           push: true
           tags: |
             ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
+          labels: |
+            xxx: yyy1
+            xxx: yyy2
