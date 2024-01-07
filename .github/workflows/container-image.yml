@@ -11,13 +11,14 @@ jobs:
     strategy:
       matrix:
         include:
-          # - 
-          #   context-subfolder: WebApplication1
-          #   imagetag: webapplication1
-          #   container-app-name: test20240106
-          #   resource-group: test20240106
+          - 
+            context-subfolder: WebApplication1
+            imagetag: webapplication1
+            container-app-name: test20240106
+            resource-group: test20240106
           - 
             context-subfolder: WebApplication2
+            # TODO - WTF?  I can't push this until I set the container manually through the console.  Is there a setting I'm missing?
             imagetag: webapplication2
             container-app-name: test20240106-2
             resource-group: test20240106
