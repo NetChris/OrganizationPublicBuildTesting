@@ -50,3 +50,9 @@ $ManagedIdentityObjectId = $(az identity create `
   )
 
 "Created managed identity $ManagedIdentityObjectId"
+
+$ManagedIdentityClientId = $(az identity show --subscription $Subscription --resource-group $ResourceGroup --name $GitHubManagedIdentityName --query clientId -o tsv)
+$ManagedIdentityTenantId = $(az identity show --subscription $Subscription --resource-group $ResourceGroup --name $GitHubManagedIdentityName --query tenantId -o tsv)
+
+"ManagedIdentityClientId: $ManagedIdentityClientId"
+"ManagedIdentityTenantId: $ManagedIdentityTenantId"
