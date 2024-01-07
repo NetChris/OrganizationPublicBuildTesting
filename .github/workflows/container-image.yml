@@ -46,6 +46,6 @@ jobs:
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:7a2541d27c5031f2373519af04cbfb8cde64af30
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
           containerAppName: test20240106
           resourceGroup: test20240106
