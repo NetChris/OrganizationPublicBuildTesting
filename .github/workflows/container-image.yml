@@ -8,6 +8,19 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - 
+            context-subfolder: WebApplication1
+            imagetag: webapplication1
+            container-app-name: test20240106
+            resource-group: test20240106
+          - 
+            context-subfolder: WebApplication2
+            imagetag: webapplication2
+            container-app-name: test20240106-2
+            resource-group: test20240106
     permissions:
       # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
       id-token: write
@@ -26,19 +39,19 @@ jobs:
         run: az acr login --name ${{ secrets.ACR_LOGIN_SERVER }}
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
-      - name: Build WebApplication1 image and push to registry
+      - name: Build "${{ matrix.context-subfolder }}" image and push to registry
         uses: docker/build-push-action@v5
         with:
           # This might be critical:
           # I want to build, publish, and dockerbuild only the app, not the whole solution.
           # So I ASSUME setting the context to the directory of the project will limit the
           # build scope to the csproj inside.
-          context: "{{defaultContext}}:WebApplication1"
+          context: "{{defaultContext}}:${{ matrix.context-subfolder }}"
           # Azure container apps are AMD64 so being explicit
           platforms: linux/amd64
           push: true
           tags: |
-            ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
+            ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.context-subfolder }}:${{ github.sha }}
           labels: |
             xxx1=yyy1
             xxx2=yyy2
@@ -46,6 +59,6 @@ jobs:
       - name: Deploy Container App
         uses: azure/container-apps-deploy-action@v1
         with:
-          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/webapplication1:${{ github.sha }}
-          containerAppName: test20240106
-          resourceGroup: test20240106
+          imageToDeploy: ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.context-subfolder }}:${{ github.sha }}
+          containerAppName: ${{ matrix.container-app-name }}
+          resourceGroup: ${{ matrix.resource-group }}
