@@ -1,8 +1,8 @@
 # TODO - Set these in env
-$Subscription20210521 = $env:Subscription20210521
-$SubscriptionMSDN = $env:SubscriptionMSDN
+$SubscriptionTesting = $env:SubscriptionTesting
+$SubscriptionSandbox = $env:SubscriptionSandbox
 $SubscriptionMain = $env:SubscriptionMain
-$AcrName = "netchristest"
+$AcrName = "netchris"
 $ManagedIdentityName = "GitHub-NetChris-PublicBuildTesting"
 
 # Set the GitHub repository name in the format: pauldotyu/osinfo
@@ -16,7 +16,7 @@ $CurrentSubscriptionId = $(az account show --query id -o tsv)
 "Current Subscription Id: $CurrentSubscriptionId"
 
 # Set the resource group name
-# For the purposes of this project, it's in SubscriptionMSDN
+# For the purposes of this project, it's in SubscriptionSandbox
 $ResourceGroup = "PublicBuildTesting"
 
 # Establish a trust relationship between Azure and GitHub Actions
@@ -27,9 +27,9 @@ $FederatedCredentialName = "$ManagedIdentityName-FC"
 $GitHubBranch = "building-and-testing-dotnet"
 
 # Create the managed identity and return the service principal object id
-$ManagedIdentityObjectId = $(az identity create --subscription $SubscriptionMSDN --resource-group $ResourceGroup --name $ManagedIdentityName --query principalId -o tsv)
-$ManagedIdentityClientId = $(az identity show   --subscription $SubscriptionMSDN --resource-group $ResourceGroup --name $ManagedIdentityName --query clientId    -o tsv)
-$ManagedIdentityTenantId = $(az identity show   --subscription $SubscriptionMSDN --resource-group $ResourceGroup --name $ManagedIdentityName --query tenantId    -o tsv)
+$ManagedIdentityObjectId = $(az identity create --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query principalId -o tsv)
+$ManagedIdentityClientId = $(az identity show   --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query clientId    -o tsv)
+$ManagedIdentityTenantId = $(az identity show   --subscription $SubscriptionSandbox --resource-group $ResourceGroup --name $ManagedIdentityName --query tenantId    -o tsv)
 
 "Managed Identity ObjectId: $ManagedIdentityObjectId"
 "Managed Identity ClientId: $ManagedIdentityClientId"
@@ -46,7 +46,7 @@ az role assignment create --role "AcrPush" --assignee-object-id $ManagedIdentity
 # See https://docs.github.com/en/actions/deployment/security-hardening-your-deployments/configuring-openid-connect-in-azure
 # Create the federated credential
 az identity federated-credential create `
-  --subscription $SubscriptionMSDN `
+  --subscription $SubscriptionSandbox `
   --name "${FederatedCredentialName}" `
   --identity-name "${ManagedIdentityName}" `
   --resource-group "${ResourceGroup}" `

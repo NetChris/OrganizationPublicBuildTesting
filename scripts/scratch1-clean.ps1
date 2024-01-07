@@ -1,5 +1,5 @@
-$Subscription20210521 = $env:Subscription20210521
-$SubscriptionMSDN = $env:SubscriptionMSDN
+$SubscriptionTesting = $env:SubscriptionTesting
+$SubscriptionSandbox = $env:SubscriptionSandbox
 $SubscriptionMain = $env:SubscriptionMain
 
 # Set the resource group name
@@ -21,4 +21,4 @@ gh secret delete AZURE_SUBSCRIPTION_ID
 gh secret delete ACR_LOGIN_SERVER
 
 "Deleting managed identity $ManagedIdentityName ..."
-az identity delete -n $ManagedIdentityName --subscription $SubscriptionMSDN --resource-group $ResourceGroup
+az identity delete -n $ManagedIdentityName --subscription $SubscriptionSandbox --resource-group $ResourceGroup
