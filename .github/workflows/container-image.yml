@@ -42,3 +42,4 @@ jobs:
           labels: |
             xxx1=yyy1
             xxx2=yyy2
+            flerg=snett
