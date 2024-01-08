@@ -84,13 +84,31 @@ Assign-AcrPush-Role -AcrName netchris -AcrSubscription $env:SubscriptionMain
 Assign-AcrPush-Role -AcrName netchristest -AcrSubscription $env:SubscriptionTesting
 Assign-AcrPush-Role -AcrName netchrissandbox -AcrSubscription $env:SubscriptionSandbox
 
+function Assign-AcrPull-Role {
+
+  param (
+        [Parameter(Mandatory)] [string]$AssigneeObjectId,
+        [Parameter(Mandatory)] [string]$AcrName,
+        [Parameter(Mandatory)] [string]$AcrSubscription
+    )
+  
+  $AcrResourceId=$(az acr show --subscription $AcrSubscription --name $AcrName --query id -o tsv)
+
+  az role assignment create `
+    --role "AcrPull" `
+    --assignee-object-id $AssigneeObjectId `
+    --assignee-principal-type ServicePrincipal `
+    --scope $AcrResourceId
+}
+
 function Create-ContainerApp {
 
   param (
         [Parameter(Mandatory)] [string]$ContainerAppEnvironment,
         [Parameter(Mandatory)] [string]$AppComponent,
         [Parameter(Mandatory)] [string]$AppComponentShort,
-        [Parameter(Mandatory)] [string]$Subscription
+        [Parameter(Mandatory)] [string]$Subscription,
+        [Parameter(Mandatory)] [string]$ContainerRegistryServer
     )
 
   # TODO - To function
@@ -111,19 +129,53 @@ function Create-ContainerApp {
       "netchris-app-aggregate-short=$AppAggregateShort" `
       "netchris-app-component=$AppComponent" `
       "netchris-app-component-short=$AppComponent" `
-    --ingress external  
+    --ingress external
+
+  $ContainerAppSystemAssignedIdentityClientId = $(az containerapp identity assign `
+    --query principalId -o tsv `
+    --subscription $Subscription `
+    --name $ContainerAppName `
+    --resource-group $CrossCuttingResourceGroup `
+    --system-assigned `
+  )
+
+  "ContainerAppSystemAssignedIdentityClientId: $ContainerAppSystemAssignedIdentityClientId"
+
+  Assign-AcrPull-Role `
+    -AssigneeObjectId $ContainerAppSystemAssignedIdentityClientId `
+    -AcrName $ContainerRegistryServer `
+    -AcrSubscription $Subscription
+
+  az containerapp registry set `
+    --subscription $Subscription `
+    --name $ContainerAppName `
+    --resource-group $CrossCuttingResourceGroup `
+    --identity system `
+    --server $ContainerRegistryServer
 }
 
 function Create-ContainerApp-Pair {
 
   param (
         [Parameter(Mandatory)] [string]$ContainerAppEnvironment,
-        [Parameter(Mandatory)] [string]$Subscription
+        [Parameter(Mandatory)] [string]$Subscription,
+        [Parameter(Mandatory)] [string]$ContainerRegistryServer
     )
   
-  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent api -AppComponentShort api
-  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent app -AppComponentShort app
+  Create-ContainerApp `
+    -Subscription $Subscription `
+    -ContainerAppEnvironment $ContainerAppEnvironment `
+    -ContainerRegistryServer $ContainerRegistryServer `
+    -AppComponent api `
+    -AppComponentShort api
+
+  Create-ContainerApp `
+    -Subscription $Subscription `
+    -ContainerAppEnvironment $ContainerAppEnvironment `
+    -ContainerRegistryServer $ContainerRegistryServer `
+    -AppComponent app `
+    -AppComponentShort app
 }
 
-Create-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test
-Create-ContainerApp-Pair -Subscription $env:SubscriptionMain -ContainerAppEnvironment Production
+Create-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test -ContainerRegistryServer "netchristest.azurecr.io"
+Create-ContainerApp-Pair -Subscription $env:SubscriptionMain -ContainerAppEnvironment Production -ContainerRegistryServer "netchris.azurecr.io"
