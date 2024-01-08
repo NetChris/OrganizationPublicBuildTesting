@@ -82,7 +82,6 @@ function Assign-AcrPush-Role {
 
 Assign-AcrPush-Role -AcrName netchris -AcrSubscription $env:SubscriptionMain
 Assign-AcrPush-Role -AcrName netchristest -AcrSubscription $env:SubscriptionTesting
-Assign-AcrPush-Role -AcrName netchrissandbox -AcrSubscription $env:SubscriptionSandbox
 
 function Assign-AcrPull-Role {
 
@@ -124,6 +123,7 @@ function Create-ContainerApp {
     --min-replicas 0 `
     --max-replicas 1 `
     --target-port 80 `
+    --system-assigned `
     --tags `
       "netchris-app-aggregate=$AppAggregate" `
       "netchris-app-aggregate-short=$AppAggregateShort" `
@@ -131,27 +131,27 @@ function Create-ContainerApp {
       "netchris-app-component-short=$AppComponent" `
     --ingress external
 
-  $ContainerAppSystemAssignedIdentityClientId = $(az containerapp identity assign `
+  $ContainerAppSystemAssignedIdentityClientId = $(az containerapp identity show `
     --query principalId -o tsv `
     --subscription $Subscription `
     --name $ContainerAppName `
-    --resource-group $CrossCuttingResourceGroup `
-    --system-assigned `
+    --resource-group $CrossCuttingResourceGroup
   )
 
   "ContainerAppSystemAssignedIdentityClientId: $ContainerAppSystemAssignedIdentityClientId"
 
-  Assign-AcrPull-Role `
-    -AssigneeObjectId $ContainerAppSystemAssignedIdentityClientId `
-    -AcrName $ContainerRegistryServer `
-    -AcrSubscription $Subscription
-
+  # This might warn about "System identity is already assigned to containerapp" but that's OK
   az containerapp registry set `
     --subscription $Subscription `
     --name $ContainerAppName `
     --resource-group $CrossCuttingResourceGroup `
     --identity system `
     --server $ContainerRegistryServer
+
+  Assign-AcrPull-Role `
+    -AssigneeObjectId $ContainerAppSystemAssignedIdentityClientId `
+    -AcrName $ContainerRegistryServer `
+    -AcrSubscription $Subscription
 }
 
 function Create-ContainerApp-Pair {
