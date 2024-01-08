@@ -7,5 +7,6 @@ $global:AppAggregateShort="agg"
 # TODO - Figure naming out
 $global:GitHubManagedIdentityName="deleteme-GitHub-figure-naming-out"
 
+# TODO - Rename to ApplicationResourceGroup
 $global:ResourceGroup="app-$AppAggregate"
 $global:CrossCuttingResourceGroup="NetChris"

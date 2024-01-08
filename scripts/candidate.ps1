@@ -27,24 +27,37 @@
 
 . ./candidate-variables.ps1
 
-az group create `
-  --location westus2 `
-  --subscription $Subscription `
-  --tags `
-    "netchris-app-aggregate=$AppAggregate" `
-    "netchris-app-aggregate-short=$AppAggregateShort" `
-    "netchris-app-component=github-identity" `
-    "netchris-app-component-short=ghid" `
-  --name $ResourceGroup
+function Create-ResourceGroup {
 
-"Created resource group $ResourceGroup"
+  param (
+        [Parameter(Mandatory)] [string]$Subscription,
+        [Parameter(Mandatory)] [string]$Environment
+    )
+
+  az group create `
+    --location westus2 `
+    --subscription $Subscription `
+    --tags `
+      "netchris-app-aggregate=$AppAggregate" `
+      "netchris-app-aggregate-short=$AppAggregateShort" `
+      "netchris-app-component=github-identity" `
+      "netchris-app-component-short=ghid" `
+      "netchris-app-environment=$Environment" `
+    --name $ResourceGroup
+
+  "Created resource group $ResourceGroup in $Environment"
+
+}
+
+Create-ResourceGroup -Subscription $env:SubscriptionTesting -Environment test
+Create-ResourceGroup -Subscription $env:SubscriptionMain -Environment production
 
 # TODO - Rename ManagedIdentityObjectId to GitHubManagedIdentityObjectId
 $ManagedIdentityObjectId = $(az identity create `
   --location westus2 `
   --query principalId -o tsv `
   --subscription $Subscription `
-  --resource-group $ResourceGroup `
+  --resource-group $CrossCuttingResourceGroup `
   --name $GitHubManagedIdentityName `
   --tags `
     "netchris-app-aggregate=$AppAggregate" `
@@ -117,7 +130,7 @@ function Create-ContainerApp {
   az containerapp create `
     --subscription $Subscription `
     --name $ContainerAppName `
-    --resource-group $CrossCuttingResourceGroup `
+    --resource-group $ResourceGroup `
     --environment $ContainerAppEnvironment `
     --image mcr.microsoft.com/azuredocs/containerapps-helloworld:latest `
     --min-replicas 0 `
@@ -135,7 +148,7 @@ function Create-ContainerApp {
     --query principalId -o tsv `
     --subscription $Subscription `
     --name $ContainerAppName `
-    --resource-group $CrossCuttingResourceGroup
+    --resource-group $ResourceGroup
   )
 
   "ContainerAppSystemAssignedIdentityClientId: $ContainerAppSystemAssignedIdentityClientId"
@@ -144,7 +157,7 @@ function Create-ContainerApp {
   az containerapp registry set `
     --subscription $Subscription `
     --name $ContainerAppName `
-    --resource-group $CrossCuttingResourceGroup `
+    --resource-group $ResourceGroup `
     --identity system `
     --server $ContainerRegistryServer
 
@@ -179,3 +192,21 @@ function Create-ContainerApp-Pair {
 
 Create-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test -ContainerRegistryServer "netchristest.azurecr.io"
 Create-ContainerApp-Pair -Subscription $env:SubscriptionMain -ContainerAppEnvironment Production -ContainerRegistryServer "netchris.azurecr.io"
+
+
+# TODO - Make sure to indicate the appropriate account/subscription and resource-group in the az call
+# GitHub ops
+# Get the client id and set the secret
+gh secret set AZURE_CLIENT_ID -b $ManagedIdentityClientId
+
+# TODO - Make sure to indicate the appropriate account/subscription and resource-group in the az call
+# Get the tenant id and set the secret
+gh secret set AZURE_TENANT_ID -b $ManagedIdentityTenantId
+
+# TODO - Make sure to indicate the appropriate account/subscription and resource-group in the az call
+# Get the subscription id and set the secret
+# Note, this must be a subscription where the managed identity has an role assignment.  It's unclear if it has to be the subscription
+# for the resources we're actually accessing.
+gh secret set AZURE_SUBSCRIPTION_ID -b $SubscriptionSandbox
+
+gh secret set ACR_LOGIN_SERVER -b $AcrLoginServer

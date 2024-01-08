@@ -16,7 +16,7 @@ function Delete-ContainerApp {
     --yes `
     --no-wait `
     --subscription $Subscription `
-    --resource-group $CrossCuttingResourceGroup `
+    --resource-group $ResourceGroup `
     --name $ContainerAppName
 }
 
@@ -34,13 +34,22 @@ function Delete-ContainerApp-Pair {
 Delete-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test
 Delete-ContainerApp-Pair -Subscription $env:SubscriptionMain -ContainerAppEnvironment Production
 
-
 az identity delete `
   --subscription $Subscription `
-  --resource-group $ResourceGroup `
+  --resource-group $CrossCuttingResourceGroup `
   --name $GitHubManagedIdentityName
 
-az group delete `
-  --subscription $Subscription `
-  --name $ResourceGroup `
-  --yes
+function Delete-ResourceGroup {
+
+  param (
+        [Parameter(Mandatory)] [string]$Subscription
+    )
+
+  az group delete `
+    --subscription $Subscription `
+    --name $ResourceGroup `
+    --yes
+}
+
+Delete-ResourceGroup -Subscription $env:SubscriptionTesting
+Delete-ResourceGroup -Subscription $env:SubscriptionMain
