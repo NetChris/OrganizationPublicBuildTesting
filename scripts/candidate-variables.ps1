@@ -8,3 +8,4 @@ $global:AppAggregateShort="agg"
 $global:GitHubManagedIdentityName="deleteme-GitHub-figure-naming-out"
 
 $global:ResourceGroup="app-$AppAggregate"
+$global:CrossCuttingResourceGroup="NetChris"

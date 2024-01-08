@@ -89,21 +89,29 @@ function Create-ContainerApp {
   param (
         [Parameter(Mandatory)] [string]$ContainerAppEnvironment,
         [Parameter(Mandatory)] [string]$AppComponent,
+        [Parameter(Mandatory)] [string]$AppComponentShort,
         [Parameter(Mandatory)] [string]$Subscription
     )
-  
+
+  # TODO - To function
   $ContainerAppName="$AppAggregate-$AppComponent"
 
-  "Would create $ContainerAppName in $ContainerAppEnvironment in $Subscription"
-
-  # az containerapp create `
-  #   --subscription $Subscription `
-  #   --name $ContainerAppName `
-  #   --resource-group $ResourceGroup `
-  #   --environment $ContainerAppEnvironment `
-  #   --image mcr.microsoft.com/azuredocs/containerapps-helloworld:latest `
-  #   --target-port 80 `
-  #   --ingress external  
+  # TODO - Tags
+  az containerapp create `
+    --subscription $Subscription `
+    --name $ContainerAppName `
+    --resource-group $CrossCuttingResourceGroup `
+    --environment $ContainerAppEnvironment `
+    --image mcr.microsoft.com/azuredocs/containerapps-helloworld:latest `
+    --min-replicas 0 `
+    --max-replicas 1 `
+    --target-port 80 `
+    --tags `
+      "netchris-app-aggregate=$AppAggregate" `
+      "netchris-app-aggregate-short=$AppAggregateShort" `
+      "netchris-app-component=$AppComponent" `
+      "netchris-app-component-short=$AppComponent" `
+    --ingress external  
 }
 
 function Create-ContainerApp-Pair {
@@ -113,8 +121,8 @@ function Create-ContainerApp-Pair {
         [Parameter(Mandatory)] [string]$Subscription
     )
   
-  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent api
-  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent app
+  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent api -AppComponentShort api
+  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent app -AppComponentShort app
 }
 
 Create-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test
