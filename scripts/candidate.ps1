@@ -83,3 +83,39 @@ function Assign-AcrPush-Role {
 Assign-AcrPush-Role -AcrName netchris -AcrSubscription $env:SubscriptionMain
 Assign-AcrPush-Role -AcrName netchristest -AcrSubscription $env:SubscriptionTesting
 Assign-AcrPush-Role -AcrName netchrissandbox -AcrSubscription $env:SubscriptionSandbox
+
+function Create-ContainerApp {
+
+  param (
+        [Parameter(Mandatory)] [string]$ContainerAppEnvironment,
+        [Parameter(Mandatory)] [string]$AppComponent,
+        [Parameter(Mandatory)] [string]$Subscription
+    )
+  
+  $ContainerAppName="$AppAggregate-$AppComponent"
+
+  "Would create $ContainerAppName in $ContainerAppEnvironment in $Subscription"
+
+  # az containerapp create `
+  #   --subscription $Subscription `
+  #   --name $ContainerAppName `
+  #   --resource-group $ResourceGroup `
+  #   --environment $ContainerAppEnvironment `
+  #   --image mcr.microsoft.com/azuredocs/containerapps-helloworld:latest `
+  #   --target-port 80 `
+  #   --ingress external  
+}
+
+function Create-ContainerApp-Pair {
+
+  param (
+        [Parameter(Mandatory)] [string]$ContainerAppEnvironment,
+        [Parameter(Mandatory)] [string]$Subscription
+    )
+  
+  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent api
+  Create-ContainerApp -Subscription $Subscription -ContainerAppEnvironment $ContainerAppEnvironment -AppComponent app
+}
+
+Create-ContainerApp-Pair -Subscription $env:SubscriptionTesting -ContainerAppEnvironment Test
+Create-ContainerApp-Pair -Subscription $env:SubscriptionMain -ContainerAppEnvironment Production
