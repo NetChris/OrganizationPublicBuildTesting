@@ -70,4 +70,5 @@ gh secret set AZURE_TENANT_ID -b $ManagedIdentityTenantId
 # for the resources we're actually accessing.
 gh secret set AZURE_SUBSCRIPTION_ID -b $SubscriptionSandbox
 
-gh secret set ACR_LOGIN_SERVER -b $AcrLoginServer
+gh secret set ACR_LOGIN_SERVER_TEST -b $AcrLoginServer
+gh secret set ACR_LOGIN_SERVER_PRODUCTION -b $AcrLoginServer

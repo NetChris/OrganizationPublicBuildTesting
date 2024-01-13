@@ -28,7 +28,7 @@ jobs:
       # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
       contents: read
     env:
-      DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER }}/${{ matrix.imagetag }}:${{ github.sha }}
+      DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER_TEST }}/${{ matrix.imagetag }}:${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,7 +39,7 @@ jobs:
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
           subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
       - name: Login to Azure Container Registry
-        run: az acr login --name ${{ secrets.ACR_LOGIN_SERVER }}
+        run: az acr login --name ${{ secrets.ACR_LOGIN_SERVER_TEST }}
       - name: Setup Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build "${{ matrix.context-subfolder }}" image and push to registry
