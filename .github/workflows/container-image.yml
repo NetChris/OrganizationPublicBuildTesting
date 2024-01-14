@@ -17,7 +17,6 @@ jobs:
             imagetag: webapplication1
             container-app-name: app-deleteme-api
             resource-group: app-deleteme
-            subscription-id: ${{ env.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
           # - 
           #   context-subfolder: WebApplication2
           #   # TODO - WTF?  I can't push this until I set the container manually through the console.  Is there a setting I'm missing?
@@ -31,8 +30,6 @@ jobs:
       contents: read
     env:
       DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER_TEST }}/${{ matrix.imagetag }}:${{ github.sha }}
-      NC_AZURE_SUBSCRIPTION_ID_TESTING: ${{ secrets.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
-      NC_AZURE_SUBSCRIPTION_ID_MAIN: ${{ secrets.NC_AZURE_SUBSCRIPTION_ID_MAIN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -41,7 +38,8 @@ jobs:
         with:
           client-id: ${{ secrets.AZURE_CLIENT_ID }}
           tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ matrix.subscription-id }}
+          # TODO - This will obviously need to vary based on environment
+          subscription-id: ${{ env.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
       - name: Login to Azure Container Registry
         run: az acr login --name ${{ secrets.ACR_LOGIN_SERVER_TEST }}
       - name: Setup Docker Buildx
