@@ -36,11 +36,11 @@ jobs:
   build-and-push:
     runs-on: ubuntu-latest
     environment: ${{ inputs.netchris-app-environment }}
-    permissions:
-      # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
-      id-token: write
-      # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
-      contents: read
+    # permissions:
+    #   # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
+    #   id-token: write
+    #   # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
+    #   contents: read
     env:
       DOCKER_IMAGE: ${{ secrets.AZURE_CONTAINER_REGISTRY_LOGIN_SERVER }}/${{ inputs.netchris-app-aggregate }}/${{ inputs.netchris-app-component }}:${{ github.sha }}
     steps:

@@ -17,6 +17,9 @@ jobs:
       run: "echo Would test"
   build-and-push-api:
     name: Build and push API
+    permissions:
+      id-token: write
+      contents: read
     uses: ./.github/workflows/build-and-push-acr.yml
     with:
       source-subfolder: WebApplication1
