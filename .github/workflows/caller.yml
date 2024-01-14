@@ -22,10 +22,7 @@ jobs:
       id-token: write
       contents: read
 
-    # TODO - Use tag when done
-    # TODO - Use NetChris/GitHub-actions/.github/workflows/build-and-push-acr.yml
-    uses: ./.github/workflows/build-and-push-acr.yml
-  # TODO - Echo output from build-and-push-api
+    uses: ./.github/workflows/called.yml
   deploy-api:
     name: Deploy API
     needs: build-and-push-api
@@ -33,3 +30,4 @@ jobs:
     steps:
     -
       run: "echo Would deploy ${{ needs.build-and-push-api.outputs.PUBLISHED_DOCKER_IMAGE }}"
+  # TODO - deploy-app
