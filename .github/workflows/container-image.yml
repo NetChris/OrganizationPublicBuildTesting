@@ -15,14 +15,14 @@ jobs:
           - 
             context-subfolder: WebApplication1
             imagetag: webapplication1
-            container-app-name: test20240106
-            resource-group: test20240106
-          - 
-            context-subfolder: WebApplication2
-            # TODO - WTF?  I can't push this until I set the container manually through the console.  Is there a setting I'm missing?
-            imagetag: webapplication2
-            container-app-name: aggregate-api
-            resource-group: test20240106
+            container-app-name: app-deleteme-api
+            resource-group: app-deleteme
+          # - 
+          #   context-subfolder: WebApplication2
+          #   # TODO - WTF?  I can't push this until I set the container manually through the console.  Is there a setting I'm missing?
+          #   imagetag: webapplication2
+          #   container-app-name: aggregate-api
+          #   resource-group: test20240106
     permissions:
       # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
       id-token: write
