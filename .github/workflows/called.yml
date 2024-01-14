@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     env:
       AZURE_CONTAINER_REGISTRY_LOGIN_SERVER: SERVER.azurecr.io
-      DOCKER_IMAGE: SERVER.azurecr.io/${{ inputs.netchris-app-aggregate }}/${{ inputs.netchris-app-component }}:${{ github.sha }}
+      DOCKER_IMAGE: SERVER.azurecr.io/xxxx/yyyyy:${{ github.sha }}
     steps:
       -
         id: published-docker-image-output
