@@ -8,7 +8,7 @@ on:
 jobs:
   call-workflow-passing-data-1:
     name: One call to called
-    uses: ./.github/workflows/called.yml
+    uses: NetChris/internal-actions/workflows/called.yml@init
     with:
       config-path: .github/one.yml
     secrets:
