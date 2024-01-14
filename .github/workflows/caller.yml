@@ -6,9 +6,17 @@ on:
       - "building-and-testing-dotnet"
 
 jobs:
-  call-workflow-passing-data:
+  call-workflow-passing-data-1:
+    name: One call to called
     uses: ./.github/workflows/called.yml
     with:
-      config-path: .github/labeler.yml
+      config-path: .github/one.yml
+    secrets:
+      envPAT: THISISASECRET
+  call-workflow-passing-data-2:
+    name: Another call to called
+    uses: ./.github/workflows/called.yml
+    with:
+      config-path: .github/another.yml
     secrets:
       envPAT: THISISASECRET
