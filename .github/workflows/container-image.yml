@@ -29,7 +29,7 @@ jobs:
       # Critical for Azure (https://paulyu.dev/article/pushing-multi-arch-container-images-guide/)
       contents: read
     env:
-      DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER_TEST }}/${{ matrix.imagetag }}:e65016340f44be3bce67a2d60ea0acb9027e6f15
+      DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER_TEST }}/${{ matrix.imagetag }}:${{ github.sha }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
