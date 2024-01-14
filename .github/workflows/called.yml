@@ -18,7 +18,7 @@ jobs:
       -
         id: published-docker-image-output
         name: Published Docker Image Output
-        #run: echo "PUBLISHED_DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}" >> $GITHUB_OUTPUT
-        run: echo "PUBLISHED_DOCKER_IMAGE=HARDCODE" >> $GITHUB_OUTPUT
+        run: echo "PUBLISHED_DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}" >> $GITHUB_OUTPUT
+        #run: echo "PUBLISHED_DOCKER_IMAGE=HARDCODE" >> $GITHUB_OUTPUT
     outputs:
       PUBLISHED_DOCKER_IMAGE: ${{ steps.published-docker-image-output.outputs.PUBLISHED_DOCKER_IMAGE }}
