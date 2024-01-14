@@ -17,7 +17,7 @@ jobs:
             imagetag: webapplication1
             container-app-name: app-deleteme-api
             resource-group: app-deleteme
-            subscription-id: ${{ secrets.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
+            subscription-id: ${{ env.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
           # - 
           #   context-subfolder: WebApplication2
           #   # TODO - WTF?  I can't push this until I set the container manually through the console.  Is there a setting I'm missing?
@@ -31,6 +31,8 @@ jobs:
       contents: read
     env:
       DOCKER_IMAGE: ${{ secrets.ACR_LOGIN_SERVER_TEST }}/${{ matrix.imagetag }}:${{ github.sha }}
+      NC_AZURE_SUBSCRIPTION_ID_TESTING: ${{ secrets.NC_AZURE_SUBSCRIPTION_ID_TESTING }}
+      NC_AZURE_SUBSCRIPTION_ID_MAIN: ${{ secrets.NC_AZURE_SUBSCRIPTION_ID_MAIN }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
