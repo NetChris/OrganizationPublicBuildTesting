@@ -1,10 +1,10 @@
-# TODO - Rename the file
-name: Full Workflow
+name: Call Build and push to Azure Container Registry
 
+#on: workflow_dispatch
 on:
   push:
     branches:
-      - "building-and-testing-dotnet"
+      - 'building-and-testing-dotnet'
 
 jobs:
   build-and-test:
@@ -15,23 +15,21 @@ jobs:
       run: "echo Would build"
     -
       run: "echo Would test"
+      
   build-and-push-api:
     name: Build and push API
     permissions:
       id-token: write
       contents: read
+
+    # TODO - Use tag when done
+    # TODO - Use NetChris/GitHub-actions/.github/workflows/build-and-push-acr.yml
     uses: ./.github/workflows/build-and-push-acr.yml
-    with:
-      source-subfolder: WebApplication1
-      netchris-app-aggregate: deleteme
-      netchris-app-component: api
-      netchris-app-environment: test
-    secrets:
-      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
-      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
-      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
-      AZURE_CONTAINER_REGISTRY_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER_TEST }}
-  # TODO - ...
-  # build-and-push-app:
-  #   name: Build and push app
-  #   uses: ./.github/workflows/build-and-push-acr.yml
+  # TODO - Echo output from build-and-push-api
+  deploy-api:
+    name: Deploy API
+    needs: build-and-push-api
+    runs-on: ubuntu-latest
+    steps:
+    -
+      run: "echo Would deploy ${{ needs.build-and-push-api.outputs.PUBLISHED_DOCKER_IMAGE }}"
