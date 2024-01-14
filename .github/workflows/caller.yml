@@ -1,22 +1,37 @@
-name: caller
+# TODO - Rename the file
+name: Full Workflow
 
 on:
   push:
     branches:
       - "building-and-testing-dotnet"
 
+env:
+  netchris-app-aggregate: deleteme
+
 jobs:
-  call-workflow-passing-data-1:
-    name: One call to called
-    uses: NetChris/internal-actions/.github/workflows/called.yml@init
+  build-and-test:
+    name: Build and test
+    runs-on: ubuntu-latest
+    steps:
+    -
+      run: "echo Would build"
+    -
+      run: "echo Would test"
+  build-and-push-api:
+    name: Build and push API
+    uses: ./.github/workflows/build-and-push-acr.yml
     with:
-      config-path: .github/one.yml
+      source-subfolder: WebApplication1
+      netchris-app-aggregate: ${{ env.netchris-app-aggregate }}
+      netchris-app-component: api
+      netchris-app-environment: test
     secrets:
-      envPAT: THISISASECRET
-  call-workflow-passing-data-2:
-    name: Another call to called
-    uses: ./.github/workflows/called.yml
-    with:
-      config-path: .github/another.yml
-    secrets:
-      envPAT: THISISASECRET
+      AZURE_TENANT_ID: ${{ secrets.AZURE_TENANT_ID }}
+      AZURE_CLIENT_ID: ${{ secrets.AZURE_CLIENT_ID }}
+      AZURE_SUBSCRIPTION_ID: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+      AZURE_CONTAINER_REGISTRY_LOGIN_SERVER: ${{ secrets.ACR_LOGIN_SERVER_TEST }}
+  # TODO - ...
+  # build-and-push-app:
+  #   name: Build and push app
+  #   uses: ./.github/workflows/build-and-push-acr.yml

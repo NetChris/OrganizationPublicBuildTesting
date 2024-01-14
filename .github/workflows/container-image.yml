@@ -5,8 +5,6 @@ on:
     branches:
       - "building-and-testing-dotnet"
 
-# TODO - Reused workflow build-and-push
-# - Returns (?) the pushed image (server/repo:tag)
 # TODO - Reused deploy
 # - Indicates pushed image
 # - Target container app
