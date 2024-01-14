@@ -6,9 +6,6 @@ on:
     branches:
       - "building-and-testing-dotnet"
 
-env:
-  netchris-app-aggregate: deleteme
-
 jobs:
   build-and-test:
     name: Build and test
@@ -23,7 +20,7 @@ jobs:
     uses: ./.github/workflows/build-and-push-acr.yml
     with:
       source-subfolder: WebApplication1
-      netchris-app-aggregate: ${{ env.netchris-app-aggregate }}
+      netchris-app-aggregate: deleteme
       netchris-app-component: api
       netchris-app-environment: test
     secrets:
