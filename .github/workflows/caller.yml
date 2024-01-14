@@ -7,7 +7,7 @@ on:
 
 jobs:
   call-workflow-passing-data:
-    uses: .github/workflows/called.yml
+    uses: .github/workflows/called.yml@building-and-testing-dotnet
     with:
       config-path: .github/labeler.yml
     secrets:
