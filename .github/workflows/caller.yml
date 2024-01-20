@@ -7,7 +7,7 @@ on:
       - 'building-and-testing-dotnet'
 
 jobs:
-  build-and-test:
+  build_and_test:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
@@ -16,7 +16,7 @@ jobs:
     -
       run: "echo Would test"
       
-  build-and-push-api:
+  build_and_push_api:
     name: Build and push API
     permissions:
       id-token: write
@@ -25,9 +25,9 @@ jobs:
     uses: ./.github/workflows/called.yml
   deploy-api:
     name: Deploy API
-    needs: build-and-push-api
+    needs: build_and_push_api
     runs-on: ubuntu-latest
     steps:
     -
-      run: "echo Would deploy ${{ needs.build-and-push-api.outputs.PUBLISHED_DOCKER_IMAGE }}"
+      run: "echo Would deploy ${{ needs.build_and_push_api.outputs.PUBLISHED_DOCKER_IMAGE }}"
   # TODO - deploy-app

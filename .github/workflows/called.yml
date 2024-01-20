@@ -5,20 +5,20 @@ on:
     outputs:
       PUBLISHED_DOCKER_IMAGE:
         description: "The published Docker image"
-        value: ${{ jobs.build-and-push.outputs.PUBLISHED_DOCKER_IMAGE }}
+        value: ${{ jobs.build_and_push.outputs.PUBLISHED_DOCKER_IMAGE }}
 
 # TODO - Output DOCKER_IMAGE
 jobs:
-  build-and-push:
+  build_and_push:
     runs-on: ubuntu-latest
     env:
       AZURE_CONTAINER_REGISTRY_LOGIN_SERVER: SERVER.azurecr.io
       DOCKER_IMAGE: SERVER.azurecr.io/xxxx/yyyyy:${{ github.sha }}
     steps:
       -
-        id: published-docker-image-output
+        id: published_docker_image_output
         name: Published Docker Image Output
         run: echo "PUBLISHED_DOCKER_IMAGE=${{ env.DOCKER_IMAGE }}" >> $GITHUB_OUTPUT
         #run: echo "PUBLISHED_DOCKER_IMAGE=HARDCODE" >> $GITHUB_OUTPUT
     outputs:
-      PUBLISHED_DOCKER_IMAGE: ${{ steps.published-docker-image-output.outputs.PUBLISHED_DOCKER_IMAGE }}
+      PUBLISHED_DOCKER_IMAGE: ${{ steps.published_docker_image_output.outputs.PUBLISHED_DOCKER_IMAGE }}
